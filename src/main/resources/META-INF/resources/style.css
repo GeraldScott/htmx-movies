@@ -1,0 +1,13 @@
+/* Movie List App Custom Styles */
+
+body {
+    background-color: #f8f9fa;
+}
+
+.uk-navbar-container {
+    background-color: #fff;
+}
+
+.uk-logo {
+    font-weight: bold;
+}
