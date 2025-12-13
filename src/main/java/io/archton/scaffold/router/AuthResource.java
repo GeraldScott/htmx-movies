@@ -23,6 +23,7 @@ public class AuthResource {
     public static class Templates {
         public static native TemplateInstance login(String title, boolean error, String userName);
         public static native TemplateInstance register(String title, String error, String userName);
+        public static native TemplateInstance usernameFeedback(String message, String type);
     }
 
     @GET
@@ -80,17 +81,17 @@ public class AuthResource {
     @Path("/check-username")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
-    public String checkUsername(@FormParam("username") String username) {
+    public TemplateInstance checkUsername(@FormParam("username") String username) {
         if (username == null || username.isBlank()) {
-            return "";
+            return Templates.usernameFeedback(null, null);
         }
         if (username.length() < 3) {
-            return "<span class=\"uk-text-warning\">Username must be at least 3 characters</span>";
+            return Templates.usernameFeedback("Username must be at least 3 characters", "warning");
         }
         if (User.existsByUsername(username)) {
-            return "<span class=\"uk-text-danger\">This username already exists</span>";
+            return Templates.usernameFeedback("This username already exists", "danger");
         }
-        return "<span class=\"uk-text-success\">Username is available</span>";
+        return Templates.usernameFeedback("Username is available", "success");
     }
 
     @POST
