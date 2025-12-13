@@ -1,0 +1,44 @@
+{#include base}
+{#insert}
+<div class="uk-width-2-3@m uk-align-center">
+    <h1 class="uk-heading-small">Register</h1>
+    <hr class="uk-divider-small">
+
+    {#if error}
+    <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p>{error}</p>
+    </div>
+    {/if}
+
+    <form method="POST" action="/register" class="uk-form-stacked" autocomplete="off">
+        <div class="uk-margin">
+            <label class="uk-form-label" for="username">Username</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" type="text" id="username" name="username"
+                       placeholder="Username" required
+                       hx-post="/check-username"
+                       hx-trigger="keyup changed delay:500ms"
+                       hx-target="#username-feedback">
+                <div id="username-feedback" class="uk-margin-small-top"></div>
+            </div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="password">Password</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" type="password" id="password" name="password"
+                       placeholder="Password (min 6 characters)" required>
+            </div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="confirmPassword">Confirm Password</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" type="password" id="confirmPassword" name="confirmPassword"
+                       placeholder="Confirm Password" required>
+            </div>
+        </div>
+        <button type="submit" class="uk-button uk-button-primary">Register</button>
+    </form>
+</div>
+{/insert}
+{/include}

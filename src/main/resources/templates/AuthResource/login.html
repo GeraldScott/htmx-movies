@@ -1,0 +1,33 @@
+{#include base}
+{#insert}
+<div class="uk-width-2-3@m uk-align-center">
+    <h1 class="uk-heading-small">Login</h1>
+    <hr class="uk-divider-small">
+
+    {#if error}
+    <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p>Invalid username or password</p>
+    </div>
+    {/if}
+
+    <form method="POST" action="/j_security_check" class="uk-form-stacked" autocomplete="off">
+        <div class="uk-margin">
+            <label class="uk-form-label" for="username">Username</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" type="text" id="username" name="j_username"
+                       placeholder="Username" required>
+            </div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="password">Password</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" type="password" id="password" name="j_password"
+                       placeholder="Password" required>
+            </div>
+        </div>
+        <button type="submit" class="uk-button uk-button-primary">Login</button>
+    </form>
+</div>
+{/insert}
+{/include}

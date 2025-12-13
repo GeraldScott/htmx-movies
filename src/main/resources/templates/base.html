@@ -1,37 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>{title?? ?: 'Movie List App'}</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{title?? ?: 'Movie List'}</title>
 
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.24.2/dist/css/uikit.min.css"/>
+        <!-- UIkit CSS -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/uikit@3.24.2/dist/css/uikit.min.css"
+        />
 
-    <!-- UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.24.2/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.24.2/dist/js/uikit-icons.min.js"></script>
+        <!-- UIkit JS -->
+        <script src="https://cdn.jsdelivr.net/npm/uikit@3.24.2/dist/js/uikit.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/uikit@3.24.2/dist/js/uikit-icons.min.js"></script>
 
-    <!-- HTMX 2.0.8 -->
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
+        <!-- HTMX 2.0.8 -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
             integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous"
+        ></script>
 
-    <link rel="stylesheet" href="/style.css"/>
-</head>
-<body>
-    <nav class="uk-navbar-container" uk-navbar>
-        <div class="uk-navbar-left">
-            <a class="uk-navbar-item uk-logo" href="/">Movie List App</a>
-            <ul class="uk-navbar-nav">
-                <li><a href="/login">Login</a></li>
-                <li><a href="/register">Register</a></li>
-            </ul>
+        <link rel="stylesheet" href="/style.css" />
+    </head>
+    <body>
+        <nav class="uk-navbar-container" uk-navbar>
+            <div class="uk-navbar-left">
+                <a class="uk-navbar-item uk-logo" href="/">Movie List</a>
+                <ul class="uk-navbar-nav">
+                    {#if userName}
+                    <li><a href="/logout">Logout ({userName})</a></li>
+                    {#else}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                    {/if}
+                </ul>
+            </div>
+        </nav>
+
+        <div class="uk-container uk-margin-large-top">
+            {#insert}Default content{/insert}
         </div>
-    </nav>
-
-    <div class="uk-container uk-margin-large-top">
-        {#insert}Default content{/insert}
-    </div>
-</body>
+    </body>
 </html>
