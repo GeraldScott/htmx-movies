@@ -160,14 +160,17 @@ curl -s -X POST \
   -o /dev/null
 
 # Then check home page with cookie
-curl -s -b /tmp/cookies.txt http://localhost:8080/ | grep -A5 "uk-navbar-nav"
+curl -s -b /tmp/cookies.txt http://localhost:8080/ | grep -E "(Logout|testuser)"
 ```
-**Expected:**
-```html
-<ul class="uk-navbar-nav">
-    <li><a href="/logout">Logout (testuser)</a></li>
-</ul>
+**Expected:** Output contains `Logout (testuser)`
+
+### 5.3 Logout
+```bash
+curl -s -X POST -b /tmp/cookies.txt -c /tmp/cookies.txt \
+  http://localhost:8080/logout \
+  -w "HTTP: %{http_code}\n" -o /dev/null
 ```
+**Expected:** `HTTP: 303` (redirect to home, session cookie cleared)
 
 ### 5.2 Authenticated User on Login Page
 ```bash

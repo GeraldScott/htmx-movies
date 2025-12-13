@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import java.net.URI;
 
@@ -92,12 +93,16 @@ public class AuthResource {
         return "<span class=\"uk-text-success\">Username is available</span>";
     }
 
-    @GET
+    @POST
     @Path("/logout")
     public Response logout() {
-        // Quarkus form auth handles session invalidation on POST to /j_security_logout
-        // For a simpler GET-based logout, we redirect to the logout endpoint
-        return Response.seeOther(URI.create("/")).build();
+        NewCookie removeCookie = new NewCookie.Builder("quarkus-credential")
+                .path("/")
+                .maxAge(0)
+                .build();
+        return Response.seeOther(URI.create("/"))
+                .cookie(removeCookie)
+                .build();
     }
 
     private String getUserName() {

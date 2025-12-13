@@ -13,6 +13,8 @@ Quarkus + HTMX prototype for building a movies application with server-side rend
 - https://getuikit.com/docs/introduction
 - https://htmx.org/
 - https://quarkus.io/guides/qute-reference
+- https://quarkus.io/guides/security-authentication-mechanisms
+- https://github.com/quarkusio/quarkus/issues/27389
 
 
 ## Build & Development Commands
