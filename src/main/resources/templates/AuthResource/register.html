@@ -16,7 +16,8 @@
             <label class="uk-form-label" for="username">Username</label>
             <div class="uk-form-controls">
                 <input class="uk-input" type="text" id="username" name="username"
-                       placeholder="Username" required
+                       placeholder="Username (min 3 characters)" required minlength="3"
+                       pattern="[a-zA-Z0-9_]+" title="Only letters, numbers, and underscores allowed"
                        hx-post="/check-username"
                        hx-trigger="keyup changed delay:500ms"
                        hx-target="#username-feedback">
@@ -27,14 +28,17 @@
             <label class="uk-form-label" for="password">Password</label>
             <div class="uk-form-controls">
                 <input class="uk-input" type="password" id="password" name="password"
-                       placeholder="Password (min 6 characters)" required>
+                       placeholder="Password (min 6 characters)" required minlength="6"
+                       oninput="document.getElementById('confirmPassword').setCustomValidity(
+                           document.getElementById('confirmPassword').value !== this.value ? 'Passwords do not match' : '')">
             </div>
         </div>
         <div class="uk-margin">
             <label class="uk-form-label" for="confirmPassword">Confirm Password</label>
             <div class="uk-form-controls">
                 <input class="uk-input" type="password" id="confirmPassword" name="confirmPassword"
-                       placeholder="Confirm Password" required>
+                       placeholder="Confirm Password" required
+                       oninput="this.setCustomValidity(this.value !== document.getElementById('password').value ? 'Passwords do not match' : '')">
             </div>
         </div>
         <button type="submit" class="uk-button uk-button-primary">Register</button>

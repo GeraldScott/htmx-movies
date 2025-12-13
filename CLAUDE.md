@@ -79,3 +79,8 @@ Endpoints can return partial HTML for HTMX requests:
 - Check `HX-Request` header to detect HTMX calls
 - Return full page for regular requests, fragments for HTMX
 - Use `hx-get`, `hx-post`, `hx-target`, `hx-swap` attributes in templates
+- For future commits use:
+  git status
+  git diff
+  git add <files>
+  git commit -m "message"

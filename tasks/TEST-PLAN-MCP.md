@@ -77,9 +77,57 @@ All tests performed on the Register page (`/register`).
 
 ---
 
-## 3. Registration Tests
+## 3. Browser-Level Validation Tests
 
-### 3.1 Successful Registration
+All tests performed on the Register page (`/register`). These test HTML5 validation attributes.
+
+### 3.1 Username Pattern - Invalid Characters
+**Action:**
+1. Fill username field with `user@name!` (contains invalid characters)
+2. Click "REGISTER" button
+
+**Expected:** Browser shows validation error "Only letters, numbers, and underscores allowed" (or similar pattern mismatch message). Form does not submit.
+
+### 3.2 Username Minlength
+**Action:**
+1. Fill username field with `ab` (2 characters)
+2. Fill password fields with valid values
+3. Click "REGISTER" button
+
+**Expected:** Browser shows validation error about minimum length. Form does not submit.
+
+### 3.3 Password Minlength
+**Action:**
+1. Fill username field with valid value
+2. Fill password field with `12345` (5 characters, less than 6)
+3. Fill confirm password with `12345`
+4. Click "REGISTER" button
+
+**Expected:** Browser shows validation error about minimum length. Form does not submit.
+
+### 3.4 Password Mismatch (Client-Side)
+**Action:**
+1. Fill username field with valid value
+2. Fill password field with `password123`
+3. Fill confirm password with `different123`
+4. Click "REGISTER" button
+
+**Expected:** Browser shows validation error "Passwords do not match". Form does not submit.
+
+### 3.5 Password Match Updates on Password Change
+**Action:**
+1. Fill password field with `password123`
+2. Fill confirm password with `password123`
+3. Go back and change password field to `changed123`
+4. Click "REGISTER" button
+
+**Expected:** Browser shows validation error "Passwords do not match" (validation updates when password changes).
+
+---
+
+## 4. Registration Tests
+
+### 4.1 Successful Registration
 **Action:**
 1. Navigate to `/register`
 2. Fill form:
@@ -92,7 +140,7 @@ All tests performed on the Register page (`/register`).
 - Page redirects to `/login`
 - No error messages displayed
 
-### 3.2 Password Mismatch
+### 4.2 Password Mismatch (Server-Side)
 **Action:**
 1. Navigate to `/register`
 2. Fill form:
@@ -105,7 +153,7 @@ All tests performed on the Register page (`/register`).
 - Stays on `/register`
 - Alert with "Passwords do not match" displayed
 
-### 3.3 Username Too Short
+### 4.3 Username Too Short (Server-Side)
 **Action:**
 1. Navigate to `/register`
 2. Fill form:
@@ -118,7 +166,7 @@ All tests performed on the Register page (`/register`).
 - Stays on `/register`
 - Alert with "Username must be at least 3 characters" displayed
 
-### 3.4 Password Too Short
+### 4.4 Password Too Short (Server-Side)
 **Action:**
 1. Navigate to `/register`
 2. Fill form:
@@ -131,7 +179,7 @@ All tests performed on the Register page (`/register`).
 - Stays on `/register`
 - Alert with "Password must be at least 6 characters" displayed
 
-### 3.5 Duplicate Username
+### 4.5 Duplicate Username
 **Action:**
 1. Navigate to `/register`
 2. Fill form:
@@ -146,9 +194,9 @@ All tests performed on the Register page (`/register`).
 
 ---
 
-## 4. Login Tests
+## 5. Login Tests
 
-### 4.1 Successful Login
+### 5.1 Successful Login
 **Action:**
 1. Navigate to `/login`
 2. Fill form:
@@ -160,7 +208,7 @@ All tests performed on the Register page (`/register`).
 - Redirects to `/` (home page)
 - Navbar shows "LOGOUT (USERNAME)" button instead of LOGIN/REGISTER links
 
-### 4.2 Invalid Credentials
+### 5.2 Invalid Credentials
 **Action:**
 1. Navigate to `/login`
 2. Fill form:
@@ -172,7 +220,7 @@ All tests performed on the Register page (`/register`).
 - Redirects to `/login?error=true`
 - Alert with "Invalid username or password" displayed
 
-### 4.3 Login Error Page
+### 5.3 Login Error Page
 **Action:** Navigate directly to `http://localhost:8080/login?error=true`
 
 **Expected:**
@@ -181,9 +229,9 @@ All tests performed on the Register page (`/register`).
 
 ---
 
-## 5. Authenticated Session Tests
+## 6. Authenticated Session Tests
 
-### 5.1 Navbar Shows Username
+### 6.1 Navbar Shows Username
 **Action:**
 1. Login with valid credentials
 2. Observe navbar
@@ -192,7 +240,7 @@ All tests performed on the Register page (`/register`).
 - Navbar displays "LOGOUT (USERNAME)" button
 - LOGIN and REGISTER links are not visible
 
-### 5.2 Authenticated User on Login Page
+### 6.2 Authenticated User on Login Page
 **Action:**
 1. Login with valid credentials
 2. Navigate to `/login`
@@ -201,7 +249,7 @@ All tests performed on the Register page (`/register`).
 - Login form displayed
 - Navbar still shows "LOGOUT (USERNAME)" button (session persists)
 
-### 5.3 Logout
+### 6.3 Logout
 **Action:**
 1. While logged in, click "LOGOUT (USERNAME)" button
 
@@ -212,7 +260,7 @@ All tests performed on the Register page (`/register`).
 
 ---
 
-## 6. Full Flow Integration Test
+## 7. Full Flow Integration Test
 
 Complete user journey from registration to authenticated session.
 
@@ -281,17 +329,22 @@ Use the `uid` value with `click` and `fill` tools.
 | HTMX Validation | 2.2 Available Username | |
 | HTMX Validation | 2.3 Username Too Short | |
 | HTMX Validation | 2.4 Empty Username | |
-| Registration | 3.1 Successful Registration | |
-| Registration | 3.2 Password Mismatch | |
-| Registration | 3.3 Username Too Short | |
-| Registration | 3.4 Password Too Short | |
-| Registration | 3.5 Duplicate Username | |
-| Login | 4.1 Successful Login | |
-| Login | 4.2 Invalid Credentials | |
-| Login | 4.3 Login Error Page | |
-| Session | 5.1 Navbar Shows Username | |
-| Session | 5.2 Auth User on Login Page | |
-| Session | 5.3 Logout | |
-| Integration | 6. Full Flow | |
+| Browser Validation | 3.1 Username Pattern | |
+| Browser Validation | 3.2 Username Minlength | |
+| Browser Validation | 3.3 Password Minlength | |
+| Browser Validation | 3.4 Password Mismatch | |
+| Browser Validation | 3.5 Password Change Update | |
+| Registration | 4.1 Successful Registration | |
+| Registration | 4.2 Password Mismatch | |
+| Registration | 4.3 Username Too Short | |
+| Registration | 4.4 Password Too Short | |
+| Registration | 4.5 Duplicate Username | |
+| Login | 5.1 Successful Login | |
+| Login | 5.2 Invalid Credentials | |
+| Login | 5.3 Login Error Page | |
+| Session | 6.1 Navbar Shows Username | |
+| Session | 6.2 Auth User on Login Page | |
+| Session | 6.3 Logout | |
+| Integration | 7. Full Flow | |
 
-**Total: ___ / 19 tests**
+**Total: ___ / 24 tests**
