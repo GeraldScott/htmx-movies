@@ -434,3 +434,92 @@ Tests for the dynamic film list feature (Phase 2).
 | Film Navbar | 8.8 Films Link Hidden | |
 
 **Film Tests: ___ / 8 tests**
+
+---
+
+## 9. Delete Film Feature Tests
+
+Tests for the delete film functionality (Phase 3).
+
+### 9.1 Delete Button Visible
+**Action:**
+1. Login and navigate to `/films`
+2. Add a film if none exist
+3. Observe the film list
+
+**Expected:**
+- Each film has an "X" delete button/badge next to it
+- Delete button is styled with red/danger color
+
+### 9.2 Delete Confirmation Dialog
+**Action:**
+1. Click the "X" delete button on a film
+
+**Expected:**
+- Browser shows confirmation dialog "Are you sure you wish to delete?"
+- Film is NOT deleted yet (dialog is blocking)
+
+### 9.3 Delete Cancelled
+**Action:**
+1. Click "X" on a film
+2. Click "Cancel" on confirmation dialog
+
+**Expected:**
+- Film remains in the list
+- No changes to the film list
+
+### 9.4 Delete Confirmed - HTMX Update
+**Action:**
+1. Add a film "Test Film to Delete"
+2. Click "X" on that film
+3. Click "OK" on confirmation dialog
+
+**Expected:**
+- Film is removed from the list without page reload
+- URL remains `/films` (no navigation)
+- Other films remain unchanged
+
+### 9.5 Delete Last Film
+**Action:**
+1. Ensure only one film exists in list
+2. Delete that film
+
+**Expected:**
+- Film list shows empty state message "You do not have any films in your list"
+
+### 9.6 Delete Multiple Films
+**Action:**
+1. Add 3 films: "Film A", "Film B", "Film C"
+2. Delete "Film B" (middle one)
+3. Delete "Film A" (first one)
+
+**Expected:**
+- After step 2: "Film A" and "Film C" remain
+- After step 3: Only "Film C" remains
+
+### 9.7 Delete Only Affects Current User
+**Action:**
+1. Login as user1, add "Shared Film Name"
+2. Logout, login as user2, add "Shared Film Name"
+3. Delete the film as user2
+4. Logout, login as user1, check films
+
+**Expected:**
+- user1's "Shared Film Name" still exists
+- Delete only affected user2's copy
+
+---
+
+## Delete Film Test Results Template
+
+| Category | Test | Status |
+|----------|------|--------|
+| Delete UI | 9.1 Delete Button Visible | |
+| Delete UI | 9.2 Confirmation Dialog | |
+| Delete Flow | 9.3 Delete Cancelled | |
+| Delete HTMX | 9.4 Delete Confirmed | |
+| Delete Edge | 9.5 Delete Last Film | |
+| Delete HTMX | 9.6 Delete Multiple Films | |
+| Delete Security | 9.7 User Isolation | |
+
+**Delete Tests: ___ / 7 tests**

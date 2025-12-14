@@ -51,4 +51,19 @@ public class FilmResource {
         List<Film> films = Film.findByUser(user);
         return Templates.filmList(films);
     }
+
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.TEXT_HTML)
+    @Transactional
+    public TemplateInstance delete(@PathParam("id") Long id) {
+        String userName = securityIdentity.getPrincipal().getName();
+        User user = User.findByUsername(userName);
+
+        // Only delete if film belongs to current user
+        Film.delete("id = ?1 and user = ?2", id, user);
+
+        List<Film> films = Film.findByUser(user);
+        return Templates.filmList(films);
+    }
 }
