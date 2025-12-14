@@ -1,6 +1,6 @@
 {#for film in films}
 {#if film_isLast && hasMorePages}
-<div hx-get="/films?page={nextPage}" hx-trigger="revealed" hx-swap="afterend" hx-target="this">
+<div hx-get="/films?page={nextPage}" hx-trigger="revealed" hx-swap="afterend">
 {#else}
 <div>
 {/if}
