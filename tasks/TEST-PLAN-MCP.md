@@ -304,6 +304,7 @@ Complete user journey from registration to authenticated session.
 | `fill` | Fill single input field |
 | `fill_form` | Fill multiple form fields |
 | `list_pages` | List open browser tabs |
+| `handle_dialog` | Accept or dismiss browser dialogs (alert, confirm, prompt) |
 
 ### Snapshot Element Identification
 
@@ -315,6 +316,24 @@ uid=1_13 button "LOGIN"
 ```
 
 Use the `uid` value with `click` and `fill` tools.
+
+### Handling Browser Dialogs (hx-confirm)
+
+When clicking elements with `hx-confirm` attribute, the browser shows a confirmation dialog that **blocks execution**. The `click` tool will timeout waiting for the dialog.
+
+**Pattern for confirmation dialogs:**
+1. Call `click` on the element with `hx-confirm` - expect timeout error
+2. Call `handle_dialog` with `action: "accept"` to confirm, or `action: "dismiss"` to cancel
+3. Call `take_snapshot` to verify the result
+
+**Example:**
+```
+click(uid="delete-button")  → Timeout (dialog blocking)
+handle_dialog(action="accept")  → Dialog dismissed, action proceeds
+take_snapshot()  → Verify item was deleted
+```
+
+**Note:** The timeout on click is expected behavior, not an error.
 
 ---
 
@@ -441,28 +460,32 @@ Tests for the dynamic film list feature (Phase 2).
 
 Tests for the delete film functionality (Phase 3).
 
+**Important:** Delete buttons use `hx-confirm` which triggers browser dialogs. See "Handling Browser Dialogs" section above for the MCP tool pattern.
+
 ### 9.1 Delete Button Visible
 **Action:**
 1. Login and navigate to `/films`
 2. Add a film if none exist
-3. Observe the film list
+3. Take snapshot and observe the film list
 
 **Expected:**
 - Each film has an "X" delete button/badge next to it
-- Delete button is styled with red/danger color
+- Delete button appears as StaticText "X" in snapshot
 
 ### 9.2 Delete Confirmation Dialog
 **Action:**
 1. Click the "X" delete button on a film
+2. Observe that click times out (dialog is blocking)
 
 **Expected:**
-- Browser shows confirmation dialog "Are you sure you wish to delete?"
-- Film is NOT deleted yet (dialog is blocking)
+- Click tool returns timeout error (this is expected)
+- Dialog is blocking - use `handle_dialog` to proceed
 
 ### 9.3 Delete Cancelled
 **Action:**
-1. Click "X" on a film
-2. Click "Cancel" on confirmation dialog
+1. Click "X" on a film (will timeout)
+2. Call `handle_dialog` with `action: "dismiss"`
+3. Take snapshot
 
 **Expected:**
 - Film remains in the list
@@ -471,8 +494,9 @@ Tests for the delete film functionality (Phase 3).
 ### 9.4 Delete Confirmed - HTMX Update
 **Action:**
 1. Add a film "Test Film to Delete"
-2. Click "X" on that film
-3. Click "OK" on confirmation dialog
+2. Click "X" on that film (will timeout)
+3. Call `handle_dialog` with `action: "accept"`
+4. Take snapshot
 
 **Expected:**
 - Film is removed from the list without page reload
@@ -482,7 +506,9 @@ Tests for the delete film functionality (Phase 3).
 ### 9.5 Delete Last Film
 **Action:**
 1. Ensure only one film exists in list
-2. Delete that film
+2. Click "X" on the film (will timeout)
+3. Call `handle_dialog` with `action: "accept"`
+4. Take snapshot
 
 **Expected:**
 - Film list shows empty state message "You do not have any films in your list"
@@ -490,8 +516,8 @@ Tests for the delete film functionality (Phase 3).
 ### 9.6 Delete Multiple Films
 **Action:**
 1. Add 3 films: "Film A", "Film B", "Film C"
-2. Delete "Film B" (middle one)
-3. Delete "Film A" (first one)
+2. Delete "Film B": click X → handle_dialog(accept) → snapshot
+3. Delete "Film A": click X → handle_dialog(accept) → snapshot
 
 **Expected:**
 - After step 2: "Film A" and "Film C" remain
@@ -501,7 +527,7 @@ Tests for the delete film functionality (Phase 3).
 **Action:**
 1. Login as user1, add "Shared Film Name"
 2. Logout, login as user2, add "Shared Film Name"
-3. Delete the film as user2
+3. Delete the film as user2 (click X → handle_dialog(accept))
 4. Logout, login as user1, check films
 
 **Expected:**
