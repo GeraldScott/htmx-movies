@@ -549,3 +549,108 @@ Tests for the delete film functionality (Phase 3).
 | Delete Security | 9.7 User Isolation | |
 
 **Delete Tests: ___ / 7 tests**
+
+---
+
+## 10. Film Search Feature Tests
+
+Tests for the dynamic film search functionality (Phase 5).
+
+**Note:** Search uses `hx-trigger="keyup changed delay:500ms"` - wait ~600ms after typing for results to appear.
+
+### 10.1 Search Input Visible
+**Action:**
+1. Login and navigate to `/films`
+2. Take snapshot
+
+**Expected:**
+- Search input field visible with placeholder "Search films..."
+- Search input appears alongside the film list (two-column layout)
+
+### 10.2 Search Returns Results
+**Action:**
+1. Navigate to `/films` (logged in)
+2. Fill search input with "god" (partial match for "The Godfather")
+3. Wait 600ms for debounce
+4. Take snapshot
+
+**Expected:**
+- Search results appear in `#search-results` div
+- "The Godfather" appears in results (if not already in user's list)
+- Each result has an "add" button
+
+### 10.3 Search No Results
+**Action:**
+1. Fill search input with "xyznonexistent"
+2. Wait 600ms
+3. Take snapshot
+
+**Expected:**
+- Message "No films found matching..." displayed
+- No film items in results
+
+### 10.4 Search Excludes User Films
+**Action:**
+1. Add "The Godfather" to user's film list manually
+2. Search for "god"
+3. Wait 600ms
+4. Take snapshot
+
+**Expected:**
+- "The Godfather" does NOT appear in search results (already in user's list)
+
+### 10.5 Add Film from Search Results
+**Action:**
+1. Search for "matrix" (assuming "The Matrix" exists in catalog)
+2. Wait for results
+3. Click "add" button on "The Matrix"
+4. Take snapshot
+
+**Expected:**
+- "The Matrix" appears in user's film list (left column)
+- Search results update (The Matrix no longer shown if same search)
+
+### 10.6 Search Case Insensitive
+**Action:**
+1. Search for "PULP" (uppercase)
+2. Wait 600ms
+3. Take snapshot
+
+**Expected:**
+- "Pulp Fiction" appears in results (case-insensitive match)
+
+### 10.7 Search Debounce Works
+**Action:**
+1. Type "the" quickly in search input
+2. Immediately check network requests (within 500ms)
+
+**Expected:**
+- No immediate request sent
+- Request only sent after ~500ms pause in typing
+
+### 10.8 Empty Search Shows No Results
+**Action:**
+1. Clear search input (empty)
+2. Wait 600ms
+3. Take snapshot
+
+**Expected:**
+- No results displayed
+- No error message (empty search is valid)
+
+---
+
+## Search Film Test Results Template
+
+| Category | Test | Status |
+|----------|------|--------|
+| Search UI | 10.1 Search Input Visible | |
+| Search HTMX | 10.2 Search Returns Results | |
+| Search Edge | 10.3 Search No Results | |
+| Search Logic | 10.4 Excludes User Films | |
+| Search HTMX | 10.5 Add from Search | |
+| Search Logic | 10.6 Case Insensitive | |
+| Search HTMX | 10.7 Debounce Works | |
+| Search Edge | 10.8 Empty Search | |
+
+**Search Tests: ___ / 8 tests**
