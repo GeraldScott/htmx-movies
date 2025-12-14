@@ -26,22 +26,39 @@ public class FilmResource {
 
     @CheckedTemplate
     public static class Templates {
-        public static native TemplateInstance films(String title, String userName, List<Film> films);
-        public static native TemplateInstance filmList(List<Film> films);
-        public static native TemplateInstance filmListMessage(List<Film> films, String message);
+        public static native TemplateInstance films(String title, String userName, List<Film> films, boolean hasMorePages);
+        public static native TemplateInstance filmList(List<Film> films, boolean hasMorePages);
+        public static native TemplateInstance filmListMessage(List<Film> films, String message, boolean hasMorePages);
+        public static native TemplateInstance filmListElements(List<Film> films, int nextPage, boolean hasMorePages);
         public static native TemplateInstance filmDetail(Film userfilm, String userName);
         public static native TemplateInstance searchResults(List<FilmCatalog> results, String search);
     }
+
+    private static final int PAGE_SIZE = 100;
 
     private static final String UPLOAD_DIR = "uploads";
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance list() {
+    public TemplateInstance list(@QueryParam("page") @DefaultValue("1") int page,
+                                 @HeaderParam("HX-Request") String hxRequest) {
         String userName = securityIdentity.getPrincipal().getName();
         User user = User.findByUsername(userName);
-        List<Film> films = Film.findByUser(user);
-        return Templates.films("My Films", userName, films);
+
+        long totalFilms = Film.count("user = ?1", user);
+        int totalPages = (int) Math.ceil((double) totalFilms / PAGE_SIZE);
+        boolean hasMorePages = page < totalPages;
+
+        List<Film> films = Film.find("user = ?1 order by displayOrder", user)
+            .page(page - 1, PAGE_SIZE)
+            .list();
+
+        // Return elements only for HTMX infinite scroll requests
+        if (hxRequest != null && page > 1) {
+            return Templates.filmListElements(films, page + 1, hasMorePages);
+        }
+
+        return Templates.films("My Films", userName, films, hasMorePages);
     }
 
     @POST
@@ -64,7 +81,9 @@ public class FilmResource {
         }
 
         List<Film> films = Film.findByUser(user);
-        return Templates.filmListMessage(films, message);
+        long totalFilms = Film.count("user = ?1", user);
+        boolean hasMorePages = totalFilms > PAGE_SIZE;
+        return Templates.filmListMessage(films, message, hasMorePages);
     }
 
     @DELETE
@@ -82,7 +101,9 @@ public class FilmResource {
         Film.reorderFilms(user);
 
         List<Film> films = Film.findByUser(user);
-        return Templates.filmList(films);
+        long totalFilms = Film.count("user = ?1", user);
+        boolean hasMorePages = totalFilms > PAGE_SIZE;
+        return Templates.filmList(films, hasMorePages);
     }
 
     @POST
@@ -123,7 +144,9 @@ public class FilmResource {
         }
 
         List<Film> films = Film.findByUser(user);
-        return Templates.filmList(films);
+        long totalFilms = Film.count("user = ?1", user);
+        boolean hasMorePages = totalFilms > PAGE_SIZE;
+        return Templates.filmList(films, hasMorePages);
     }
 
     @GET
@@ -148,7 +171,9 @@ public class FilmResource {
         String userName = securityIdentity.getPrincipal().getName();
         User user = User.findByUsername(userName);
         List<Film> films = Film.findByUser(user);
-        return Templates.filmList(films);
+        long totalFilms = Film.count("user = ?1", user);
+        boolean hasMorePages = totalFilms > PAGE_SIZE;
+        return Templates.filmList(films, hasMorePages);
     }
 
     @POST

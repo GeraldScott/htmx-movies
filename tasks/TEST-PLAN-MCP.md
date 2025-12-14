@@ -926,3 +926,135 @@ Tests for the film detail view and photo upload functionality (Phase 6.2).
 | Upload Logic | 12.10 Separate Photos | |
 
 **Film Detail Tests: ___ / 10 tests**
+
+---
+
+## 13. Infinite Scroll and URL Push State Tests
+
+Tests for infinite scroll (lazy loading) and URL push state functionality (Phase 8).
+
+**Note:** Infinite scroll uses `hx-trigger="revealed"` which fires when an element enters the viewport. URL push state uses `hx-push-url` to update browser URL without page reload.
+
+### 13.1 URL Updates When Clicking Film Detail
+**Action:**
+1. Login and navigate to `/films`
+2. Add a film if none exist
+3. Note the current URL (should be `/films`)
+4. Click on a film name to open detail view
+5. Check the browser URL
+
+**Expected:**
+- URL updates to `/films/{filmname}` (e.g., `/films/The%20Godfather`)
+- Page does not fully reload
+- Detail view is displayed
+
+### 13.2 URL Updates When Returning to List
+**Action:**
+1. From film detail view, click "Your List" button
+2. Check the browser URL
+
+**Expected:**
+- URL updates back to `/films`
+- Page does not fully reload
+- Film list is displayed
+
+### 13.3 Browser Back Button Works
+**Action:**
+1. Navigate to `/films`
+2. Click on a film to view detail (URL becomes `/films/{name}`)
+3. Click browser back button
+
+**Expected:**
+- URL returns to `/films`
+- Film list view is displayed
+- No page reload (HTMX handles navigation)
+
+### 13.4 Browser Forward Button Works
+**Action:**
+1. After going back (test 13.3), click browser forward button
+
+**Expected:**
+- URL returns to `/films/{name}`
+- Film detail view is displayed
+
+### 13.5 Infinite Scroll - Initial Load
+**Action:**
+1. Login and navigate to `/films`
+2. Add many films (more than page size, e.g., 100+ films)
+3. Take snapshot of initial film list
+
+**Expected:**
+- First page of films is displayed (up to page size)
+- Last visible film element has `hx-trigger="revealed"` attribute
+- Not all films are loaded initially
+
+### 13.6 Infinite Scroll - Load More on Scroll
+**Action:**
+1. With many films in list, scroll to the bottom
+2. Wait for HTMX request to complete
+3. Take snapshot
+
+**Expected:**
+- Additional films are loaded and appended to the list
+- New films appear below existing ones
+- No page reload occurs
+- Scroll position is maintained
+
+### 13.7 Infinite Scroll - Last Page Has No Trigger
+**Action:**
+1. Scroll to load all pages of films
+2. Inspect the last film element
+
+**Expected:**
+- Last film on final page does NOT have `hx-trigger="revealed"`
+- No more loading occurs after reaching the end
+
+### 13.8 Infinite Scroll - Works with Reorder
+**Action:**
+1. With multiple pages of films loaded via infinite scroll
+2. Drag a film to reorder
+3. Wait for response
+
+**Expected:**
+- Reorder works correctly
+- Film list updates without losing loaded films
+- Order is saved correctly
+
+### 13.9 URL Push State Encodes Special Characters
+**Action:**
+1. Add a film with special characters (e.g., "Film: Test & Demo")
+2. Click on that film to view detail
+3. Check the browser URL
+
+**Expected:**
+- URL properly encodes special characters
+- URL is valid and can be copied/shared
+
+### 13.10 Direct URL Access (Deep Link)
+**Action:**
+1. Copy the URL from a film detail view
+2. Open a new browser tab
+3. Paste and navigate to the copied URL
+
+**Expected:**
+- Either: Film detail view loads directly (if deep linking implemented)
+- Or: Redirects to `/films` with the film list (acceptable fallback)
+
+---
+
+## Infinite Scroll Test Results Template
+
+| Category | Test | Status |
+|----------|------|--------|
+| URL Push | 13.1 URL Updates on Detail | |
+| URL Push | 13.2 URL Updates on Return | |
+| URL Push | 13.3 Browser Back Works | |
+| URL Push | 13.4 Browser Forward Works | |
+| Infinite Scroll | 13.5 Initial Load | |
+| Infinite Scroll | 13.6 Load More on Scroll | |
+| Infinite Scroll | 13.7 Last Page No Trigger | |
+| Infinite Scroll | 13.8 Works with Reorder | |
+| URL Push | 13.9 Special Chars Encoded | |
+| URL Push | 13.10 Deep Link Access | |
+
+**Infinite Scroll Tests: ___ / 10 tests**

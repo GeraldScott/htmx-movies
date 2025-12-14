@@ -4,7 +4,8 @@
         <p>This film is #{userfilm.displayOrder} in {userName}'s list</p>
         <button class="uk-button uk-button-primary"
                 hx-get="/films/list-partial"
-                hx-target="#film-list">Your List</button>
+                hx-target="#film-list"
+                hx-push-url="/films">Your List</button>
     </div>
     <div>
         {#if userfilm.photoPath}
