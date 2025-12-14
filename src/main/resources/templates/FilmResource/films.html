@@ -1,0 +1,17 @@
+{#include base}
+<div class="uk-width-2-3@m uk-align-center">
+    <div class="uk-flex uk-flex-between uk-flex-middle">
+        <h2 class="uk-heading-small uk-margin-remove">My Films</h2>
+        <form hx-post="/films/add" hx-target="#film-list" class="uk-flex uk-flex-middle">
+            <input type="text" name="filmname" class="uk-input uk-form-small uk-margin-small-right"
+                   placeholder="Enter a film" style="width: 200px;" />
+            <button type="submit" class="uk-button uk-button-primary uk-button-small">Add Film</button>
+        </form>
+    </div>
+    <hr class="uk-divider-small">
+
+    <div id="film-list">
+        {#include FilmResource/filmList}{/include}
+    </div>
+</div>
+{/include}

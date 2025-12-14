@@ -30,10 +30,11 @@
                 <a class="uk-navbar-item uk-logo" href="/">Movie List</a>
                 <ul class="uk-navbar-nav">
                     {#if userName}
+                    <li><a href="/films">Films</a></li>
                     <li>
                         <form action="/logout" method="post" style="display: inline;">
                             <button type="submit" class="uk-button uk-button-link uk-navbar-item">
-                                Logout ({userName})
+                                Logout
                             </button>
                         </form>
                     </li>

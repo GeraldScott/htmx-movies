@@ -1,0 +1,9 @@
+{#if films && films.size > 0}
+<ul class="uk-list uk-list-striped">
+    {#for film in films}
+    <li>{film.name}</li>
+    {/for}
+</ul>
+{#else}
+<p class="uk-text-muted">You do not have any films in your list</p>
+{/if}

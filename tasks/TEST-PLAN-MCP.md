@@ -348,3 +348,89 @@ Use the `uid` value with `click` and `fill` tools.
 | Integration | 7. Full Flow | |
 
 **Total: ___ / 24 tests**
+
+---
+
+## 8. Film Feature Tests
+
+Tests for the dynamic film list feature (Phase 2).
+
+### 8.1 Films Page - Unauthenticated Access
+**Action:** Navigate to `http://localhost:8080/films` without logging in
+
+**Expected:** Redirects to `/login` page
+
+### 8.2 Films Page - Authenticated Access
+**Action:**
+1. Login with valid credentials
+2. Navigate to `/films`
+
+**Expected:**
+- Heading "My Films" displayed
+- Input field with placeholder "Enter a film"
+- "Add Film" button
+- Empty film list message or existing films
+
+### 8.3 Add Film - HTMX Dynamic Update
+**Action:**
+1. Navigate to `/films` (logged in)
+2. Enter "The Godfather" in the input field
+3. Click "Add Film" button
+
+**Expected:**
+- Film "The Godfather" appears in list without page reload
+- No page flash/reload visible
+- Film appears in striped list format
+
+### 8.4 Add Multiple Films
+**Action:**
+1. Add "Taxi Driver"
+2. Add "Fargo"
+3. Add "Big Lebowski"
+
+**Expected:** All three films appear in list in order added
+
+### 8.5 Films Persist After Logout/Login
+**Action:**
+1. Add some films
+2. Logout
+3. Login again
+4. Navigate to `/films`
+
+**Expected:** Previously added films still visible
+
+### 8.6 Films Are User-Specific
+**Action:**
+1. Login as user1, add "Film A"
+2. Logout
+3. Register/login as user2
+4. Navigate to `/films`
+
+**Expected:** Film list is empty (user2 has no films)
+
+### 8.7 Navbar Shows Films Link When Authenticated
+**Action:** Login and check navbar
+
+**Expected:** "Films" link visible in navbar between logo and Logout
+
+### 8.8 Navbar Hides Films Link When Not Authenticated
+**Action:** Logout and check navbar
+
+**Expected:** "Films" link NOT visible in navbar (only Login/Register shown)
+
+---
+
+## Film Test Results Template
+
+| Category | Test | Status |
+|----------|------|--------|
+| Film Access | 8.1 Unauthenticated Access | |
+| Film Access | 8.2 Authenticated Access | |
+| Film HTMX | 8.3 Add Film Dynamic Update | |
+| Film HTMX | 8.4 Add Multiple Films | |
+| Film Data | 8.5 Films Persist | |
+| Film Data | 8.6 User-Specific Films | |
+| Film Navbar | 8.7 Films Link Visible | |
+| Film Navbar | 8.8 Films Link Hidden | |
+
+**Film Tests: ___ / 8 tests**
