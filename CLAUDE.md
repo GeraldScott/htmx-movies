@@ -13,7 +13,14 @@ Quarkus + HTMX prototype for building a movies application with server-side rend
 When you are making a plan to implement a feature, first refer to these resources for guidance and best practices:
 
 - https://htmx.org/
+- https://htmx.org/examples/
+- https://htmx.org/reference/
+- https://htmx.org/docs/
 - https://quarkus.io/guides/qute-reference
+- https://quarkus.io/guides/getting-started-dev-services
+- https://quarkus.io/guides/security-getting-started-tutorial
+- https://quarkus.io/guides/security-jpa
+- https://quarkus.io/guides/hibernate-orm-panache
 - https://getuikit.com/docs/introduction
 - https://quarkus.io/guides/security-authentication-mechanisms
 - https://github.com/quarkusio/quarkus/issues/27389 (guidance on Logout)

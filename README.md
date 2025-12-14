@@ -2,9 +2,7 @@
 
 > Quarkus+HTMX prototype
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
-
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+This project uses Quarkus, the Supersonic Subatomic Java Framework and HTMX. Use it as a reference project for the HTMX functionality described below.
 
 ## Running the application in dev mode
 
@@ -298,4 +296,3 @@ This section documents how HTMX enables dynamic user interactions without writin
 | `hx-confirm` | Show confirmation dialog before request |
 | `hx-vals` | Inject additional parameters into request |
 | `hx-encoding` | Set form encoding (for file uploads) |
-
