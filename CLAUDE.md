@@ -10,37 +10,23 @@ Quarkus + HTMX prototype for building a movies application with server-side rend
 
 ## References
 
-- https://getuikit.com/docs/introduction
+When you are making a plan to implement a feature, first refer to these resources for guidance and best practices:
+
 - https://htmx.org/
 - https://quarkus.io/guides/qute-reference
+- https://getuikit.com/docs/introduction
 - https://quarkus.io/guides/security-authentication-mechanisms
-- https://github.com/quarkusio/quarkus/issues/27389
+- https://github.com/quarkusio/quarkus/issues/27389 (guidance on Logout)
 
+Use Context7 MCP for additional information if the references above are not helpful.
 
 ## Build & Development Commands
 
-```bash
-# Run in dev mode (hot reload enabled)
-./mvnw compile quarkus:dev
+Don't compile the application after making changes. We are using the Quarkus development mode (`quarkus:dev`) for hot reloading. Instead, ask the user to restart the application after making changes.
 
-# Run tests
-./mvnw test
+The application is available at http://localhost:8080 during development.
 
-# Run a single test class
-./mvnw test -Dtest=TestClassName
-
-# Run a single test method
-./mvnw test -Dtest=TestClassName#methodName
-
-# Package application
-./mvnw package
-
-# Build native executable (requires GraalVM)
-./mvnw package -Dnative
-
-# Build native using container (no GraalVM needed)
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
+Use the Chrome Devtool MCP `chrome-devtools` to test the application. Execute the full test pack in `tasks/TEST-PLAN-MCP.md` after implementing any new user-facing feature. 
 
 Dev UI available at http://localhost:8080/q/dev/ during development.
 
