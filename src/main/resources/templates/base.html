@@ -22,6 +22,9 @@
             crossorigin="anonymous"
         ></script>
 
+        <!-- Sortable.js for drag-and-drop -->
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
         <link rel="stylesheet" href="/style.css" />
     </head>
     <body>
@@ -49,5 +52,33 @@
         <div class="uk-container uk-margin-large-top">
             {#insert}Default content{/insert}
         </div>
+
+        <script>
+            // Initialize Sortable.js on HTMX content load
+            document.body.addEventListener('htmx:load', function(evt) {
+                var sortables = evt.detail.elt.querySelectorAll('.sortable');
+                sortables.forEach(function(sortable) {
+                    if (!sortable.sortableInstance) {
+                        sortable.sortableInstance = new Sortable(sortable, {
+                            animation: 150,
+                            ghostClass: 'uk-background-muted',
+                            handle: '.drag-handle'
+                        });
+                    }
+                });
+            });
+
+            // Initialize on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                var sortables = document.querySelectorAll('.sortable');
+                sortables.forEach(function(sortable) {
+                    sortable.sortableInstance = new Sortable(sortable, {
+                        animation: 150,
+                        ghostClass: 'uk-background-muted',
+                        handle: '.drag-handle'
+                    });
+                });
+            });
+        </script>
     </body>
 </html>

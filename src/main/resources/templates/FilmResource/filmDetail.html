@@ -1,0 +1,26 @@
+<div class="uk-flex uk-flex-between">
+    <div>
+        <h2 class="uk-text-success uk-margin-bottom">{userfilm.name}</h2>
+        <p>This film is #{userfilm.displayOrder} in {userName}'s list</p>
+        <button class="uk-button uk-button-primary"
+                hx-get="/films/list-partial"
+                hx-target="#film-list">Your List</button>
+    </div>
+    <div>
+        {#if userfilm.photoPath}
+        <img src="/uploads/{userfilm.photoPath}" style="max-width: 200px; max-height: 200px;" />
+        {#else}
+        <p class="uk-text-muted">No photo :(</p>
+        {/if}
+
+        <form hx-encoding="multipart/form-data"
+              hx-post="/films/{userfilm.id}/upload-photo"
+              hx-target="#film-list"
+              class="uk-margin-top">
+            <div class="uk-margin">
+                <input class="uk-input" type="file" name="photo" />
+            </div>
+            <button class="uk-button uk-button-success" type="submit">Upload File</button>
+        </form>
+    </div>
+</div>
