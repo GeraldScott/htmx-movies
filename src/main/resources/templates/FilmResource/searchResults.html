@@ -1,0 +1,16 @@
+{#if results && results.size > 0}
+<ul class="uk-list uk-list-striped">
+    {#for film in results}
+    <li class="uk-flex uk-flex-between uk-flex-middle">
+        <span>{film.name}</span>
+        <span class="uk-badge"
+              style="cursor: pointer; background-color: #32d296;"
+              hx-post="/films/add"
+              hx-vals='{"filmname": "{film.name}"}'
+              hx-target="#film-list">add</span>
+    </li>
+    {/for}
+</ul>
+{#else if search}
+<p class="uk-text-muted">No films found matching "{search}"</p>
+{/if}

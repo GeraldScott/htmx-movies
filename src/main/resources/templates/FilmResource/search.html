@@ -1,0 +1,10 @@
+<div class="uk-margin">
+    <input type="text"
+        class="uk-input uk-form-small"
+        hx-post="/films/search"
+        hx-target="#search-results"
+        hx-trigger="keyup changed delay:500ms"
+        name="search"
+        placeholder="Search films..." />
+</div>
+<div id="search-results"></div>

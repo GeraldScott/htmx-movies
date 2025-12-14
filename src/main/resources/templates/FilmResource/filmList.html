@@ -1,16 +1,23 @@
-{#if films && films.size > 0}
-<ul class="uk-list uk-list-striped">
-    {#for film in films}
-    <li class="uk-flex uk-flex-between uk-flex-middle">
-        <span>{film.name}</span>
-        <span class="uk-badge"
-              style="cursor: pointer; background-color: #f0506e;"
-              hx-delete="/films/{film.id}"
-              hx-target="#film-list"
-              hx-confirm="Are you sure you wish to delete?">X</span>
-    </li>
-    {/for}
-</ul>
-{#else}
-<p class="uk-text-muted">You do not have any films in your list</p>
-{/if}
+<div class="uk-grid uk-child-width-1-2@m" uk-grid>
+    <div>
+        {#if films && films.size > 0}
+        <ul class="uk-list uk-list-striped">
+            {#for film in films}
+            <li class="uk-flex uk-flex-between uk-flex-middle">
+                <span>{film.name}</span>
+                <span class="uk-badge"
+                      style="cursor: pointer; background-color: #f0506e;"
+                      hx-delete="/films/{film.id}"
+                      hx-target="#film-list"
+                      hx-confirm="Are you sure you wish to delete?">X</span>
+            </li>
+            {/for}
+        </ul>
+        {#else}
+        <p class="uk-text-muted">You do not have any films in your list</p>
+        {/if}
+    </div>
+    <div>
+        {#include FilmResource/search /}
+    </div>
+</div>
